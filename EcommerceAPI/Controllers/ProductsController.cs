@@ -10,23 +10,30 @@ namespace EcommerceAPI.Controllers
     [Route("api/[controller]")]
     public class ProductsController: ControllerBase
     {
-        readonly IProductRepository _context;
-        public ProductsController(IProductRepository context)
+        private readonly IGenericRepository<Product> _productRepo;
+        private readonly IGenericRepository<ProductType> _productTypeRepo;
+        private readonly IGenericRepository<ProductBrand> _productBrandRepo;
+
+        public ProductsController(IGenericRepository<Product> productRepo, 
+                                IGenericRepository<ProductBrand> productBrandRepo, 
+                                IGenericRepository<ProductType> productTypeRepo)
         {
-            _context = context;
+            _productRepo = productRepo;
+            _productBrandRepo = productBrandRepo;
+            _productTypeRepo = productTypeRepo;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            var products = await _context.GetProductsAsync();
+            var products = await _productRepo.ListAllAsync();
             return Ok(products);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.GetProductByIdAsync(id);
+            var product = await _productRepo.GetByIdAsync(id);
 
             if(product == null) 
             {
@@ -38,13 +45,13 @@ namespace EcommerceAPI.Controllers
 
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductsBrands() {
-            var brands = await _context.GetProductBrandsAsync();
+            var brands = await _productBrandRepo.ListAllAsync();
             return Ok(brands);
         }   
         
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes() {
-            var types = await _context.GetProductTypesAsync();
+            var types = await _productTypeRepo.ListAllAsync();
             return Ok(types);
         }
     }
