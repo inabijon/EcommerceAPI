@@ -2,6 +2,7 @@ using System.Linq;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
+using EcommerceAPI.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,15 +26,22 @@ namespace EcommerceAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts()
+        public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts()
         {
             var spec = new ProductsWithBrandsAndTypesSpecification();
             var products = await _productRepo.ListAsync(spec);
-            return Ok(products);
+            return products.Select(product => new ProductToReturnDto{
+                Id = product.Id,
+                Name = product.Name,
+                Description= product.Description,
+                ProductPicture = product.ProductPicture,
+                ProductBrand = product.ProductBrand.Name,
+                ProductType = product.ProductType.Name 
+            }).ToList();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
         {
             var spec = new ProductsWithBrandsAndTypesSpecification(id);
             var product = await _productRepo.GetEntityWithSpec(spec);
@@ -43,7 +51,14 @@ namespace EcommerceAPI.Controllers
                 return NotFound();
             }
 
-            return product;
+            return new ProductToReturnDto {
+                Id = product.Id,
+                Name = product.Name,
+                Description= product.Description,
+                ProductPicture = product.ProductPicture,
+                ProductBrand = product.ProductBrand.Name,
+                ProductType = product.ProductType.Name 
+            };
         }
 
         [HttpGet("brands")]
