@@ -1,5 +1,11 @@
 {
     "cSpell.words": [
         "Ecommerce"
-    ]
+    ],
+    "files.exclude": {
+        ".vs": true,
+        ".vscode": true,
+        "**/bin": true,
+        "**/obj": true
+    }
 }

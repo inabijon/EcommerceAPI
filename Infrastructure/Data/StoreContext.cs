@@ -1,7 +1,7 @@
-using EcommerceAPI.Entities;
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerceAPI.Data 
+namespace Infrastructure.Data
 {
     public class StoreContext: DbContext {
         public StoreContext(DbContextOptions<StoreContext> options): base(options) 

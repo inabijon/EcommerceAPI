@@ -1,6 +1,6 @@
 using System.Linq;
-using EcommerceAPI.Data;
-using EcommerceAPI.Entities;
+using Infrastructure.Data;
+using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
