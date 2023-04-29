@@ -40,11 +40,6 @@ namespace EcommerceAPI.Controllers
             var spec = new ProductsWithBrandsAndTypesSpecification(id);
             var product = await _productRepo.GetEntityWithSpec(spec);
 
-            if(product == null) 
-            {
-                return NotFound();
-            }
-
             return _mapper.Map<Product, ProductToReturnDto>(product);
         }
 

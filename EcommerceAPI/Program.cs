@@ -1,5 +1,6 @@
 using Core.Interfaces;
 using EcommerceAPI.Helpers;
+using EcommerceAPI.Middleware;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -38,12 +39,16 @@ using (var scope = app.Services.CreateScope()) {
     }
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 app.UseHttpsRedirection();
 
