@@ -1,17 +1,13 @@
-using System.Linq;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using EcommerceAPI.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceAPI.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController: ControllerBase
+    public class ProductsController: BaseApiController
     {
         private readonly IGenericRepository<Product> _productRepo;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
